@@ -1,32 +1,36 @@
 #include "Board.h"
 
-string Board::place_piece(string player, vector<vector<string>>& arr, int col)
+bool Board::place_piece(string player, vector<vector<string>>& arr, int col)
 {
-	if (col >= 0 && col < 7) {
-		int i;
-		if (isFull(col)) return "full";
-		for (i = 5; i >= 0; i--) {
-			if (arr[i][col] == "_"&& player == player1) {
-				arr[i][col] = player1;
-				lastmovex = i;
-				lastmovey = col;
-				cout << "player 1 drop a piece in column " << lastmovey << endl;
-				break;
+	bool result = false;
+	
+	int i;
 
-			}
-			else if (arr[i][col] == "_" && player == player2) {
-				arr[i][col] = player2;
-				lastmovex = i;
-				lastmovey = col;
-				cout << "player 2 drop a piece in column " << lastmovey << endl;
-				break;
+	for (i = board.size() - 1; i >= 0; i--) {
+		if (arr[i][col] == "_"&& player == player1) {
+			arr[i][col] = player1;
+			lastmovey = col;
+			cout << "player 1 drop a piece in column " << lastmovey << endl;
+			return true;
 
-			}
+		}
+		else if (arr[i][col] == "_" && player == player2) {
+			arr[i][col] = player2;
+			lastmovey = col;
+			cout << "player 2 drop a piece in column " << lastmovey << endl;
+			return true;
 
 		}
 
-		return arr[i][col];
 	}
+	if (isFull(col)) {
+		printf(" This column is full ");
+		cout << endl;
+		return false;
+	}
+
+	return result;
+	
 
 }
 
@@ -110,8 +114,6 @@ bool Board::check_vertical(int row, int col, string player, vector<vector<string
 	int score = 1;
 	int count = 1;
 
-	
-
 	while (row + count < 6) {
 		if (board_output[row + count][col] == player) // Check Down
 		{
@@ -177,109 +179,33 @@ bool Board::check_horizontal(int row, int col, string player, vector<vector<stri
 	else return false;
 }
 
-void Board::ClearBoard()
+vector<vector<string>> Board::FillBoard()
 {
-	Position p;
-	board.resize(p.get_row(), vector<string>(p.get_col()));
-	for (int i = 0; i < 6; i++) {
-		for (int j = 0; j < 7; j++) {
+	
+	board.resize(row, vector<string>(col));
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < col; j++) {
 			board[i][j] = "_";
-
 		}
 	}
-
-}
-
-vector<Position> Board::getEmptyPosition()
-{
-	int size = this->board.size(); 
-	vector<Position> emptyPositions;
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (board[i][j] == "_")
-				emptyPositions.push_back(Position(i,j));
-		}
-	}
-	return emptyPositions;
+	return board;
 }
 
 
 
 bool Board::isFull(int col)
 {
-	bool full = true;
-
-	for (int i = 0; i < col; i++) {
-		if (board[0][i] == "_") {
-			full = false;
-		}
-	}
-	return full;
-}
-
-bool Board::RandomGame(vector<vector<string>>b, string player)
-{
 	
-	while (1) {
-		if (place_piece(player, b, rand() % 7) == player1) {
-			player = player1;
-		}
-		else if (place_piece(player, b, rand() % 7) == player2) {
-			player = player2;
-		}
-		bool winner = check_for_winner(lastmovex, lastmovey, player, b);
-
-		if (winner != isFull(lastmovey)) { // this condition need to be recheck
-			return winner;
-		}
-	}
-}
-
-int Board::SuggestMove(vector<vector<string>> b, string player)
-{
-	int best = -1;
 	
-	double best_ratio = 0;
-	int games_per_move = 10000;
-	for (int i = 0; i < 7; i++) {
-		if (!isValidMove(b, i)) continue; // no valid move found
-		double won = 0, lost = 0;
-		for (int j = 0; j < games_per_move; j++) {
-			
-			place_piece(player, b, i);
-
-			// if this is a winning move there is nothing to search, return it
-
-			if (check_for_winner(lastmovex, lastmovey, player, b)) {
-				return i;
-			}
-			string next = (player == player2) ? player1 : player2;
-			bool winner = RandomGame(b, next);
-			if (winner) {
-				if (player == player1 || player == player2) {
-					won++;
-				}
-				else {
-					lost++;
-				}
-			}
-
-		}
-		double ratio = won / (lost + 1);
-		cout << "Move " + i << endl;
-		cout << "Ratio: %f"<< ratio << endl;
-		if (ratio > best_ratio || best == -1) {
-			best = i;
-			best_ratio = ratio;
-		}
+	if (board[0][col] != "_") {
+		return false;
 	}
-	return best;
+	else {
+		return true;
+	}
+		
+	
+	
 }
 
 
-/*
-Board::Board(vector<vector<string>> b)
-{
-	board.resize(6, vector<string>(7));
-	board = b;
-}*/
