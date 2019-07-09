@@ -6,10 +6,11 @@ bool Board::place_piece(string player, vector<vector<string>>& arr, int col)
 	
 	int i;
 
-	for (i = board.size() - 1; i >= 0; i--) {
+	for (i = board.size() - 1; i >= 0; --i) {
 		if (arr[i][col] == "_"&& player == player1) {
 			arr[i][col] = player1;
 			lastmovey = col;
+			lastmovex = i;
 			cout << "player 1 drop a piece in column " << lastmovey << endl;
 			return true;
 
@@ -17,6 +18,7 @@ bool Board::place_piece(string player, vector<vector<string>>& arr, int col)
 		else if (arr[i][col] == "_" && player == player2) {
 			arr[i][col] = player2;
 			lastmovey = col;
+			lastmovex = i;
 			cout << "player 2 drop a piece in column " << lastmovey << endl;
 			return true;
 
@@ -143,10 +145,10 @@ bool Board::check_horizontal(int row, int col, string player, vector<vector<stri
 	int count = 1;
 
 	
-	vector<string> v = board_output[row];
+	vector<vector<string>> v = board_output;
 	while (col - count >= 0)
 	{
-		if (v[col - count] == player)  //Check Left
+		if (v[row][col - count] == player)  //Check Left
 		{
 			score++;
 			count++;
@@ -157,7 +159,7 @@ bool Board::check_horizontal(int row, int col, string player, vector<vector<stri
 	count = 1;
 	while (col + count < 7)
 	{
-		if (v[col + count] == player)  //Check Right
+		if (v[row][col + count] == player)  //Check Right
 		{
 			score++;
 			count++;
@@ -181,13 +183,15 @@ bool Board::check_horizontal(int row, int col, string player, vector<vector<stri
 
 vector<vector<string>> Board::FillBoard()
 {
-	
+	//board.resize(row);
 	board.resize(row, vector<string>(col));
-	for (int i = 0; i < row; i++) {
-		for (int j = 0; j < col; j++) {
+	for (int i = 0; i < board.size(); i++) {
+		for (int j = 0; j < board[i].size(); j++) {
 			board[i][j] = "_";
 		}
+		
 	}
+	
 	return board;
 }
 
@@ -195,8 +199,7 @@ vector<vector<string>> Board::FillBoard()
 
 bool Board::isFull(int col)
 {
-	
-	
+
 	if (board[0][col] != "_") {
 		return false;
 	}

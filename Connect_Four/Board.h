@@ -32,6 +32,8 @@ class Board {
 			col = col1;
 
 		}
+		int get_row() { return row; }
+		int get_col() { return col; }
 		int get_lastmovex() { return lastmovex; }
 		int get_lastmovey() { return lastmovey; }
 		// Drop down the pieces base on player's color
