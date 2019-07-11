@@ -61,13 +61,13 @@ bool Board::check_diagonal_SW_NE(int row, int col, string player, vector<vector<
 		else break;
 	}
 	if (score == 4 && player == "R") {
-		cout << "player 1 win" << endl;
+		//cout << "player 1 win" << endl;
 		player1score++;
 		cout << "Score is: " << player1score << endl;
 		return true;
 	}
 	if (score == 4 && player == "Y") {
-		cout << "player 2 win" << endl;
+		//cout << "player 2 win" << endl;
 		player2score++;
 		cout << "Score is: " << player2score << endl;
 		return true;
@@ -97,13 +97,13 @@ bool Board::check_diagonal_NW_SE(int row, int col, string player, vector<vector<
 		else break; // If stuck break
 	}
 	if (score == 4 && player == "R") {
-		cout << "player 1 win" << endl;
+		//cout << "player 1 win" << endl;
 		player1score++;
 		cout << "Score is: " << player1score << endl;
 		return true;
 	}
 	if (score == 4 && player == "Y") {
-		cout << "player 2 win" << endl;
+		//cout << "player 2 win" << endl;
 		player2score++;
 		cout << "Score is: " << player2score << endl;
 		return true;
@@ -125,13 +125,13 @@ bool Board::check_vertical(int row, int col, string player, vector<vector<string
 		else break; // If stuck break
 	}
 	if (score == 4 && player == "R") {
-		cout << "player 1 win" << endl;
+		//cout << "player 1 win" << endl;
 		player1score++;
 		cout << "Score is: " << player1score << endl;
 		return true;
 	}
 	else if (score == 4 && player == "Y") {
-		cout << "player 2 win" << endl;
+		//cout << "player 2 win" << endl;
 		player2score++;
 		cout << "Score is: "<<player2score << endl;
 		return true;
@@ -167,13 +167,13 @@ bool Board::check_horizontal(int row, int col, string player, vector<vector<stri
 		else break;  //If no combo is detected break from the loop
 	}
 	if (score == 4 && player == "R") {
-		cout << "player 1 win" << endl;
+		//cout << "player 1 win" << endl;
 		player1score++;
 		cout << "Score is: " << player1score << endl;
 		return true;
 	}
 	if (score == 4 && player == "Y") {
-		cout << "player 2 win" << endl;
+		//cout << "player 2 win" << endl;
 		player2score++;
 		cout << "Score is: " << player2score << endl;
 		return true;
@@ -185,6 +185,7 @@ vector<vector<string>> Board::FillBoard()
 {
 	//board.resize(row);
 	board.resize(row, vector<string>(col));
+	
 	for (int i = 0; i < board.size(); i++) {
 		for (int j = 0; j < board[i].size(); j++) {
 			board[i][j] = "_";
